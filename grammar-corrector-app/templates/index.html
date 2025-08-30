@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Grammar Corrector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Grammar Corrector</h1>
+            <p>Refine your writing in any language with the power of Gemini.</p>
+        </header>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="language">Source Language</label>
+                <select name="language" id="language" class="form-control">
+                    {% for lang in languages %}
+                        <option value="{{ lang }}" {% if lang == selected_language %}selected{% endif %}>{{ lang.title() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="user_text">Your Text</label>
+                <textarea name="user_text" id="user_text" class="form-control" placeholder="Enter text to correct here...">{{ original_text or '' }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn">Correct Grammar</button>
+        </form>
+
+        {% if error %}
+            <div class="error">
+                <strong>Error:</strong> {{ error }}
+            </div>
+        {% endif %}
+
+        {% if corrected_text %}
+            <div class="results-card">
+                <h2>Corrected Text</h2>
+                <p class="corrected-text">{{ corrected_text }}</p>
+                <div class="original-text">
+                    <strong>Original:</strong> "{{ original_text }}"
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
